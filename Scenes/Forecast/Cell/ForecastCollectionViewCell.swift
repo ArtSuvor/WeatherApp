@@ -49,15 +49,15 @@ class ForecastCollectionViewCell: UICollectionViewCell {
         delegate?.heartWasPressed(indexPath: indexPath)
     }
     
-    func configure(with weather: Weather, indexPath: IndexPath) {
+    func configure(with weather: RealmWeather, indexPath: IndexPath) {
         selectedIndexPath = indexPath
         
-        counterLikeLabel.text = String(weather.likeCount)
+//        counterLikeLabel.text = String(weather.likeCount)
         temperatureLabel.text = String(format: "%.0f℃", weather.temperature)
-        heartImageView.image = weather.isLike ? CellConsts.fillImage : CellConsts.emptyImage
+//        heartImageView.image = weather.isLike ? CellConsts.fillImage : CellConsts.emptyImage
 
         
-        let prettyDate = dateFormatter.string(from: weather.date)
+//        let prettyDate = dateFormatter.string(from: weather.date)
         let url = URL(string: "https://api.openweathermap.org/img/w/\(weather.icon).png")
         forecastImageView.kf.setImage(with: url!)
          

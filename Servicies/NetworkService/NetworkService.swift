@@ -11,7 +11,7 @@ import SwiftyJSON
 import RealmSwift
 
 protocol NetworkService {
-    func getCurrentWeatherForecast(city: String, completionHandler: @escaping ([Weather]) -> Void)
+    func getCurrentWeatherForecast(city: String, _: @escaping () -> Void)
 }
 
 class NetworkServiceImplementation: NetworkService {
@@ -24,7 +24,7 @@ class NetworkServiceImplementation: NetworkService {
         return Session(configuration: config)
     }()
     
-    func getCurrentWeatherForecast(city: String, completionHandler: @escaping ([Weather])-> Void) {
+    func getCurrentWeatherForecast(city: String, _: @escaping () -> Void) {
         let path = "/data/2.5/forecast"
         let params: Parameters = ["q": "\(city)",
                                   "units": "metric",
@@ -38,16 +38,23 @@ class NetworkServiceImplementation: NetworkService {
                 let forecastList = json["list"].arrayValue
                 let weatherForecast = forecastList.map({ Weather($0) })
                 let weatherRealmForecast = weatherForecast.map {RealmWeather($0)}
-                do {
-                    let realm = try Realm()
-                    try realm.write {
-                        realm.add(weatherRealmForecast)
-                    }
-                } catch let error {
-                    print(error)
-                }
-                completionHandler(weatherForecast)
+                weatherRealmForecast.forEach {$0.city = city}
+                self.saveWeatherData(weatherRealmForecast, city: city)
             }
+        }
+    }
+    
+    func saveWeatherData(_ weather: [RealmWeather], city: String) {
+        do {
+            let realm = try Realm()
+            let oldWeathers = realm.objects(RealmWeather.self).filter("city == %@", city)
+            try realm.write {
+                realm.delete(oldWeathers)
+                realm.add(weather)
+            }
+            print(realm.configuration.fileURL)
+        } catch let error {
+            print(error)
         }
     }
 }
