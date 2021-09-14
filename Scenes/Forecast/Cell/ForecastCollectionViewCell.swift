@@ -58,8 +58,8 @@ class ForecastCollectionViewCell: UICollectionViewCell {
 
         
 //        let prettyDate = dateFormatter.string(from: weather.date)
-        let url = URL(string: "https://api.openweathermap.org/img/w/\(weather.icon).png")
-        forecastImageView.kf.setImage(with: url!)
+        guard let url = URL(string: "https://api.openweathermap.org/img/w/\(weather.icon).png") else { return }
+        forecastImageView.kf.setImage(with: url)
          
     }
     

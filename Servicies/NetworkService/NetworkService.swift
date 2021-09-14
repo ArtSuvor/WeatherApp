@@ -11,7 +11,7 @@ import SwiftyJSON
 import RealmSwift
 
 protocol NetworkService {
-    func getCurrentWeatherForecast(city: String, _: @escaping () -> Void)
+    func getCurrentWeatherForecast(city: String)
 }
 
 class NetworkServiceImplementation: NetworkService {
@@ -24,7 +24,7 @@ class NetworkServiceImplementation: NetworkService {
         return Session(configuration: config)
     }()
     
-    func getCurrentWeatherForecast(city: String, _: @escaping () -> Void) {
+    func getCurrentWeatherForecast(city: String) {
         let path = "/data/2.5/forecast"
         let params: Parameters = ["q": "\(city)",
                                   "units": "metric",

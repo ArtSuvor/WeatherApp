@@ -20,33 +20,31 @@ class ForecastViewController: UIViewController {
     
     //MARK: - Сервисы
     private let networkService: NetworkService = NetworkServiceImplementation()
-    private var forecastItems = [RealmWeather]()
+    private var forecastItems = try? Realm().objects(RealmWeather.self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         let cellNib = UINib(nibName: "ForecastCollectionViewCell", bundle: nil)
         collectionView.register(cellNib, forCellWithReuseIdentifier: resuseID)
-        networkService.getCurrentWeatherForecast(city: currentCity) { [weak self] in
-            self?.loadData()
-            self?.collectionView.reloadData()
-        }
+        networkService.getCurrentWeatherForecast(city: currentCity)
+        collectionView.reloadData()
     }
     
-    private func loadData() {
-        do {
-            let realm = try Realm()
-            let forecastWeather = realm.objects(RealmWeather.self).filter("city == %@", currentCity)
-            self.forecastItems = Array(forecastWeather)
-        } catch let error {
-            print(error)
-        }
-    }
+//    private func loadData() {
+//        do {
+//            let realm = try Realm()
+//            let forecastWeather = realm.objects(RealmWeather.self)
+//            self.forecastItems = Array(forecastWeather)
+//        } catch let error {
+//            print(error)
+//        }
+//    }
 }
 
 
 extension ForecastViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return forecastItems.count
+        forecastItems?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -54,6 +52,7 @@ extension ForecastViewController: UICollectionViewDelegate, UICollectionViewData
             fatalError("{Message: Error in dequeue CityTableViewCell}")
         }
 //        cell.delegate = self
+        guard let forecastItems = forecastItems else { return UICollectionViewCell() }
         cell.configure(with: forecastItems[indexPath.row], indexPath: indexPath)
         return cell
     }
