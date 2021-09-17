@@ -11,6 +11,7 @@ protocol DatabaseService {
     func save<T: Object> (_ items: [T]) throws -> Realm
     func get<T: Object, KeyType> (_ type: T.Type, primaryKey: KeyType) throws -> T?
     func get<T: Object> (_ type: T.Type) throws -> Results<T>
+    func delete<T: Object>(_ item: T) throws
 }
 
 class DatabaseServiceImpl: DatabaseService {
@@ -31,5 +32,12 @@ class DatabaseServiceImpl: DatabaseService {
     func get<T: Object> (_ type: T.Type) throws -> Results<T> {
         let realm = try Realm()
         return realm.objects(type)
+    }
+    
+    func delete<T: Object>(_ item: T) throws {
+        let realm = try Realm()
+        try realm.write {
+            realm.delete(item)
+        }
     }
 }

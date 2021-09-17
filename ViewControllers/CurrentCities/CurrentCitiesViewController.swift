@@ -1,0 +1,131 @@
+//
+//  CurrentCitiesViewController.swift
+//  WeatherApp
+//
+//  Created by Art on 23.07.2021.
+//
+
+import UIKit
+import RealmSwift
+
+class CurrentCitiesViewController: UIViewController {
+    
+    //MARK: - Outlets
+    //таблица с городами
+    @IBOutlet var citiesTableView: UITableView!
+    
+    //MARK: - Properties
+    //идентификатор для ячейки
+    private let cellID = "CityTableViewCell"
+    private let databaseServise: DatabaseService = DatabaseServiceImpl()
+    private var token: NotificationToken?
+    private var cities: Results<RealmCity>?
+    
+//MARK: - Life cycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNotificationToken()
+    }
+    
+    override func viewDidLoad() {
+        cities = try? databaseServise.get(RealmCity.self).sorted(byKeyPath: "name")
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        token?.invalidate()
+    }
+    
+//MARK: - Functions
+    
+    private func setupNotificationToken() {
+        token = cities?.observe {[weak self] changes in
+            guard let self = self else { return }
+            switch changes {
+            case .error(let error):
+                self.showError(error)
+            case .initial:
+                self.citiesTableView.reloadData()
+            case .update(_, deletions: let deletions, insertions: let insetions, modifications: let modifications):
+                self.citiesTableView.updateChanges(deletions: deletions, insertions: insetions, modifications: modifications)
+            }
+        }
+    }
+    
+//    передача текущего города в другой vc
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let forecastVC = segue.destination as? ForecastViewController,
+              let indexPath = citiesTableView.indexPathForSelectedRow,
+              let cities = cities else {return}
+        forecastVC.currentCity = cities[indexPath.row].name
+    }
+
+    
+//MARK: - FuncAction
+    
+    @IBAction func addCityAction(_ sender: Any) {
+        let alertVC = UIAlertController(title: "Введите название города", message: nil, preferredStyle: .alert)
+        alertVC.addTextField()
+        let okButton = UIAlertAction(title: "Ok", style: .default) {[weak self] _ in
+            guard let self = self,
+                  let cityName = alertVC.textFields?.first?.text, !cityName.isEmpty else { return }
+            let city = RealmCity(name: cityName)
+            _ = try? self.databaseServise.save([city])
+        }
+        let cancelButton = UIAlertAction(title: "Отмена", style: .cancel)
+        alertVC.addAction(okButton)
+        alertVC.addAction(cancelButton)
+        present(alertVC, animated: true, completion: nil)
+    }
+}
+
+//MARK: - Extension Table Properties
+
+//вызываем методы для отображения информации в таблице не забыть выставить оутлеты от таблицы к контроллеру
+extension CurrentCitiesViewController: UITableViewDataSource{
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { //количество строк в секции
+        cities?.count ?? 0
+    }
+    
+    //метод, позволяющий переиспользовать ячейку, indexPath - нумерация ячеек
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let items = cities,
+              let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? CityTableViewCell
+        else { return UITableViewCell() }
+        cell.configure(weather: items[indexPath.row])
+        return cell
+    }
+}
+
+//MARK: - Extension Удаление ячеек
+
+extension CurrentCitiesViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        switch editingStyle {
+        case .delete:
+            guard let deleteObject = cities?[indexPath.row] else { return }
+            try? databaseServise.delete(deleteObject)
+        default:
+            return
+        }
+    }
+}
+
+//MARK: - добавляем сегу возвращения и добавления выбранного города
+
+//    @IBAction private func goBackFromAvaliableScreen(with segue: UIStoryboardSegue) {
+//        //выбираем контроллер куда переходим destination - куда мы выйдем, source - от куда мы выходим(текущий контроллер), получаем текущий выделенный элемент из таблицы
+//        guard let avaliableVC = segue.source as? AvaliableCityViewController,
+//              let indexPath = avaliableVC.avalibleTableView.indexPathForSelectedRow else {return}
+//        //  получаем новый город
+//        let newCity = avaliableVC.cities[indexPath.row] // извлекаем текущий выбранный город
+//
+//        //проверием на добавление уже добавленных городов
+//        guard !cities.contains(where: { city -> Bool in         //guard cities.contains(where: {$0.name == newCity.name})
+//                                city.name == newCity.name })
+//        else {return}
+//        cities.append(newCity) // добавляем новый город в массив
+//        citiesTableView.reloadData() //перезапускаем вьюху таблицы
+//    }

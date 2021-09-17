@@ -11,7 +11,7 @@ import SwiftyJSON
 import RealmSwift
 
 protocol NetworkService {
-    func getCurrentWeatherForecast(city: String)
+    func getCurrentWeatherForecast(city: String, handler: @escaping (Result<[RealmWeather], Error>) -> Void)
 }
 
 class NetworkServiceImplementation: NetworkService {
@@ -24,7 +24,7 @@ class NetworkServiceImplementation: NetworkService {
         return Session(configuration: config)
     }()
     
-    func getCurrentWeatherForecast(city: String) {
+    func getCurrentWeatherForecast(city: String, handler: @escaping (Result<[RealmWeather], Error>) -> Void) {
         let path = "/data/2.5/forecast"
         let params: Parameters = ["q": "\(city)",
                                   "units": "metric",
@@ -32,29 +32,13 @@ class NetworkServiceImplementation: NetworkService {
         session.request(host + path, method: .get, parameters: params).responseJSON { response in
             switch response.result {
             case .failure(let error):
-                print(error)
+                handler(.failure(error))
             case .success(let value):
                 let json = JSON(value)
                 let forecastList = json["list"].arrayValue
                 let weatherForecast = forecastList.map({ Weather($0) })
-                let weatherRealmForecast = weatherForecast.map {RealmWeather($0)}
-                weatherRealmForecast.forEach {$0.city = city}
-                self.saveWeatherData(weatherRealmForecast, city: city)
+                handler(.success(weatherForecast.map {RealmWeather($0)} ))
             }
-        }
-    }
-    
-    func saveWeatherData(_ weather: [RealmWeather], city: String) {
-        do {
-            let realm = try Realm()
-            let oldWeathers = realm.objects(RealmWeather.self).filter("city == %@", city)
-            try realm.write {
-                realm.delete(oldWeathers)
-                realm.add(weather)
-            }
-            print(realm.configuration.fileURL)
-        } catch let error {
-            print(error)
         }
     }
 }

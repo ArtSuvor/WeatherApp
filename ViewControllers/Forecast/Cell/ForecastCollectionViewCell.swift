@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 
 protocol ForecastCollectionViewCellDelegate: AnyObject {
-    func heartWasPressed(indexPath: IndexPath)
+    func heartWasPressed(at objectID: UUID)
 }
 
 class ForecastCollectionViewCell: UICollectionViewCell {
@@ -30,7 +30,7 @@ class ForecastCollectionViewCell: UICollectionViewCell {
     }()
     
     weak var delegate: ForecastCollectionViewCellDelegate?
-    var selectedIndexPath: IndexPath?
+    private var weatherForecastID: UUID?
     
     //MARK: - Life cycle
     
@@ -44,20 +44,15 @@ class ForecastCollectionViewCell: UICollectionViewCell {
     //MARK: - Functions
     
     @objc private func heartTap() {
-       
-        guard let indexPath = selectedIndexPath else {return}
-        delegate?.heartWasPressed(indexPath: indexPath)
+        guard let ID = weatherForecastID else { return }
+        delegate?.heartWasPressed(at: ID)
     }
     
-    func configure(with weather: RealmWeather, indexPath: IndexPath) {
-        selectedIndexPath = indexPath
-        
-//        counterLikeLabel.text = String(weather.likeCount)
+    func configure(with weather: RealmWeather) {
+        weatherForecastID = weather.id
         temperatureLabel.text = String(format: "%.0f℃", weather.temperature)
-//        heartImageView.image = weather.isLike ? CellConsts.fillImage : CellConsts.emptyImage
-
+        heartImageView.image = weather.isLike ? CellConsts.fillImage : CellConsts.emptyImage
         
-//        let prettyDate = dateFormatter.string(from: weather.date)
         guard let url = URL(string: "https://api.openweathermap.org/img/w/\(weather.icon).png") else { return }
         forecastImageView.kf.setImage(with: url)
          

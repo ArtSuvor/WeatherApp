@@ -288,7 +288,7 @@
                     <navigationItem key="navigationItem" id="ESk-IZ-kuQ">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="WwH-Hn-UxF">
                             <connections>
-                                <segue destination="ip0-Pe-URf" kind="show" id="cmr-sh-531"/>
+                                <action selector="addCityAction:" destination="0RC-5v-XHE" id="WHX-kg-5V4"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -365,7 +365,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tiK-o3-cJr">
-                                <rect key="frame" x="0.0" y="88" width="390" height="722"/>
+                                <rect key="frame" x="0.0" y="44" width="390" height="766"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="ip0-Pe-URf" id="YtW-QW-Lse"/>
