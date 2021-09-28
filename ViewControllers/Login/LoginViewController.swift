@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
     //MARK: - Outlets
@@ -20,6 +21,7 @@ class LoginViewController: UIViewController {
     
     //MARK: - Properties
     private let animator = Animator()
+    private var handle: AuthStateDidChangeListenerHandle!
 
     //MARK: - Life cycle
     override func viewWillAppear(_ animated: Bool) {
@@ -28,6 +30,7 @@ class LoginViewController: UIViewController {
         //подключаем наблюдателя для показа/скрытия клавиатуры
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        addingAuthListener()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -35,33 +38,79 @@ class LoginViewController: UIViewController {
         animateAuthButton()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        Auth.auth().removeStateDidChangeListener(handle)
+    }
+    
     //MARK: - Functions
     ///сега перехода на след экран
     @IBAction func pushCurrentVC(_ sender: Any) {
-        performSegue(withIdentifier: "showMainScreenID", sender: nil)
-    }
-    //проверяем то ли вью и результат авторизации
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if identifier == "showMainScreenID" && checkAuth() {
-            return true
-        } else {
-            showAuthError()
-            return false
+        guard let email = loginTextField.text,
+              let password = passwordTextField.text,
+              !email.isEmpty,
+              !password.isEmpty else { return showAlertError(title: "Ошибка", message: "Логин или пароль некорректны") }
+        Auth.auth().signIn(withEmail: email, password: password) {[weak self] user, error in
+            if let error = error, user == nil {
+                self?.showError(error)
+            }
         }
+//        performSegue(withIdentifier: "showMainScreenID", sender: nil)
     }
+    
+    //проверяем то ли вью и результат авторизации
+//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+//        if identifier == "showMainScreenID" && checkAuth() {
+//            return true
+//        } else {
+//            showAuthError()
+//            return false
+//        }
+//    }
+    
+    @IBAction func singButtonPressed(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Регистрация", message: "Регистрация пользователя", preferredStyle: .alert)
+        
+        alert.addTextField { login in
+            login.placeholder = "Введите Email"
+        }
+        alert.addTextField { password in
+            password.placeholder = "Введите пароль"
+            password.isSecureTextEntry = true
+        }
+        
+        let regButton = UIAlertAction(title: "Зарегистрировать", style: .default) {[weak self] _ in
+            guard let emailField = alert.textFields?[0],
+                  let passwordField = alert.textFields?[1],
+                  let email = emailField.text,
+                  let password = passwordField.text else { return }
+            Auth.auth().createUser(withEmail: email, password: password) { [weak self] user, error in
+                if let error = error {
+                    self?.showError(error)
+                } else {
+                    Auth.auth().signIn(withEmail: email, password: password)
+                }
+            }
+        }
+        let cancelButton = UIAlertAction(title: "Отмена", style: .cancel)
+        alert.addAction(regButton)
+        alert.addAction(cancelButton)
+        present(alert, animated: true, completion: nil)
+    }
+    
     
     //проверяем авторизацию пользователя
-    func checkAuth() -> Bool {
-        return (loginTextField.text ?? "").isEmpty && (passwordTextField.text ?? "").isEmpty
-    }
+//    func checkAuth() -> Bool {
+//        return (loginTextField.text ?? "").isEmpty && (passwordTextField.text ?? "").isEmpty
+//    }
     
     //уведомление пользователя об ошибке
-    func showAuthError() {
-        let alertVC = UIAlertController(title: "Error", message: "Write password", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
-        alertVC.addAction(okAction)
-        self.present(alertVC, animated: true, completion: nil)
-    }
+//    func showAuthError() {
+//        let alertVC = UIAlertController(title: "Error", message: "Write password", preferredStyle: .alert)
+//        let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+//        alertVC.addAction(okAction)
+//        self.present(alertVC, animated: true, completion: nil)
+//    }
     
     //показ клавиатуры
     @objc func keyboardWasShow(_ notification: Notification) {
@@ -76,6 +125,16 @@ class LoginViewController: UIViewController {
     //скрытие клавиатуры
     @objc func keyboardWillHide(notification: Notification) {
         scrollView.contentInset = .zero
+    }
+    
+    private func addingAuthListener() {
+        handle = Auth.auth().addStateDidChangeListener { auth, user in
+            if user != nil {
+                self.performSegue(withIdentifier: "showMainScreenID", sender: nil)
+                self.loginTextField.text = nil
+                self.passwordTextField.text = nil
+            }
+        }
     }
     
     //анимация кнопки входа

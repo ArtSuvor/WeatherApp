@@ -45,17 +45,8 @@ class ForecastViewController: UIViewController {
         view.addSubview(activityIndicator)
         activityIndicator.frame = CGRect(x: view.center.x, y: view.frame.midY + 20, width: 45, height: 45)
         activityIndicator.startAnimating()
-        
-        networkService.getCurrentWeatherForecast(city: currentCity, handler: { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                self.showError(error)
-            case .success(let weatherItems):
-                _ = try? self.databaseService.save(weatherItems)
-                activityIndicator.stopAnimating()
-            }
-        })
+        networkService.getCurrentWeatherForecast(city: currentCity)
+        activityIndicator.stopAnimating()
     }
     
     //отслеживание изменений

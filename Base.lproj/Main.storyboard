@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19115.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19107.5"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -63,6 +63,14 @@
                                                     <action selector="pushCurrentVC:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3Ao-UX-eIr"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5RQ-93-XOZ">
+                                                <rect key="frame" x="140" y="472" width="110.33333333333331" height="31"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="Регистрация"/>
+                                                <connections>
+                                                    <action selector="singButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="p1R-6v-SVe"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="F2F-0k-iHf" firstAttribute="top" secondItem="GKl-IL-arY" secondAttribute="bottom" constant="40" id="1QH-Qp-tDW"/>
@@ -72,6 +80,7 @@
                                             <constraint firstItem="D7D-d9-9YQ" firstAttribute="trailing" secondItem="oBJ-pd-9DT" secondAttribute="trailing" id="8lo-Yy-jZ0"/>
                                             <constraint firstAttribute="trailing" secondItem="oab-fZ-dgy" secondAttribute="trailing" constant="15" id="D16-ZX-qWF"/>
                                             <constraint firstItem="F2F-0k-iHf" firstAttribute="leading" secondItem="GKl-IL-arY" secondAttribute="leading" id="LC4-Vg-kg2"/>
+                                            <constraint firstItem="5RQ-93-XOZ" firstAttribute="top" secondItem="dH5-B6-lAw" secondAttribute="bottom" constant="30" id="Lz4-1h-HkP"/>
                                             <constraint firstAttribute="trailing" secondItem="oBJ-pd-9DT" secondAttribute="trailing" constant="40" id="MpU-Vb-R3h"/>
                                             <constraint firstItem="oab-fZ-dgy" firstAttribute="top" secondItem="Fuc-Lp-qRK" secondAttribute="top" constant="100" id="OL5-oS-Hg0"/>
                                             <constraint firstItem="oBJ-pd-9DT" firstAttribute="leading" secondItem="GKl-IL-arY" secondAttribute="trailing" constant="20" id="SuU-VW-GVx"/>
@@ -81,6 +90,7 @@
                                             <constraint firstItem="oBJ-pd-9DT" firstAttribute="top" secondItem="GKl-IL-arY" secondAttribute="top" id="aeq-0O-XHN"/>
                                             <constraint firstItem="oab-fZ-dgy" firstAttribute="leading" secondItem="Fuc-Lp-qRK" secondAttribute="leading" constant="15" id="eYm-vc-Wl4"/>
                                             <constraint firstItem="D7D-d9-9YQ" firstAttribute="top" secondItem="F2F-0k-iHf" secondAttribute="top" id="fUW-Vn-E2n"/>
+                                            <constraint firstItem="5RQ-93-XOZ" firstAttribute="centerX" secondItem="Fuc-Lp-qRK" secondAttribute="centerX" id="ggz-di-ovu"/>
                                             <constraint firstItem="F2F-0k-iHf" firstAttribute="trailing" secondItem="GKl-IL-arY" secondAttribute="trailing" id="h7r-Qb-KW7"/>
                                             <constraint firstItem="dH5-B6-lAw" firstAttribute="centerY" secondItem="Fuc-Lp-qRK" secondAttribute="centerY" id="kXP-VN-ojg"/>
                                             <constraint firstItem="dH5-B6-lAw" firstAttribute="top" secondItem="F2F-0k-iHf" secondAttribute="bottom" constant="100" id="wdx-Nt-khT"/>
@@ -132,7 +142,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aIf-x5-UO2">
-                                <rect key="frame" x="90" y="338.33333333333331" width="200" height="199.99999999999994"/>
+                                <rect key="frame" x="90" y="335" width="200" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="3Sb-0T-GhN"/>
                                     <constraint firstAttribute="width" constant="200" id="8T6-kD-ypd"/>
@@ -148,7 +158,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bx7-5U-J0p">
-                                <rect key="frame" x="142.66666666666666" y="274" width="105" height="34.333333333333314"/>
+                                <rect key="frame" x="149" y="274" width="92.333333333333314" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Анимация"/>
                                 <connections>
@@ -234,7 +244,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CityTableViewCell" id="SAc-Tz-0dT" customClass="CityTableViewCell" customModule="WeatherApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="390" height="120.33333587646484"/>
+                                        <rect key="frame" x="0.0" y="44.666666030883789" width="390" height="120.33333587646484"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SAc-Tz-0dT" id="Lak-gc-LCq">
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="120.33333587646484"/>
@@ -286,6 +296,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ESk-IZ-kuQ">
+                        <barButtonItem key="leftBarButtonItem" title="Выйти" id="IcC-b1-s1V">
+                            <connections>
+                                <action selector="logOutButton:" destination="0RC-5v-XHE" id="8OX-0V-ffI"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="WwH-Hn-UxF">
                             <connections>
                                 <action selector="addCityAction:" destination="0RC-5v-XHE" id="WHX-kg-5V4"/>

@@ -12,7 +12,7 @@ class CityTableViewCell: UITableViewCell {
     @IBOutlet private var cityName: UILabel!
     @IBOutlet private var cityImage: UIImageView!
     
-    func configure(weather: RealmCity) {
+    func configure(weather: FirebaseCity) {
         cityName.text = weather.name
         cityImage.image = UIImage(named: "11")
     }

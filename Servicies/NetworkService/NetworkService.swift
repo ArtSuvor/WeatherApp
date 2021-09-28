@@ -9,13 +9,15 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import RealmSwift
+import FirebaseFirestore
 
 protocol NetworkService {
-    func getCurrentWeatherForecast(city: String, handler: @escaping (Result<[RealmWeather], Error>) -> Void)
+    func getCurrentWeatherForecast(city: String)
 }
 
 class NetworkServiceImplementation: NetworkService {
 
+    private let databaseServise: DatabaseService = DatabaseServiceImpl()
     private let host = "https://api.openweathermap.org"
     
     let session: Session = {
@@ -24,7 +26,7 @@ class NetworkServiceImplementation: NetworkService {
         return Session(configuration: config)
     }()
     
-    func getCurrentWeatherForecast(city: String, handler: @escaping (Result<[RealmWeather], Error>) -> Void) {
+    func getCurrentWeatherForecast(city: String) {
         let path = "/data/2.5/forecast"
         let params: Parameters = ["q": "\(city)",
                                   "units": "metric",
@@ -32,42 +34,29 @@ class NetworkServiceImplementation: NetworkService {
         session.request(host + path, method: .get, parameters: params).responseJSON { response in
             switch response.result {
             case .failure(let error):
-                handler(.failure(error))
+                print(error)
             case .success(let value):
                 let json = JSON(value)
                 let forecastList = json["list"].arrayValue
-                let weatherForecast = forecastList.map({ Weather($0) })
-                handler(.success(weatherForecast.map {RealmWeather($0)} ))
+                let weather = forecastList.map { Weather($0) }
+                _ = try? self.databaseServise.save(weather.map { RealmWeather($0) })
+                
+                //сохраняем в Firebase
+                let database = Firestore.firestore()
+                let weathersToSend = weather
+                    .map { $0.toFirestore() }
+                    .reduce([:]) { $0.merging($1) { (current, _) in current } }
+                database.collection("forecast").document(city).setData(weathersToSend, merge: true) { error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else {
+                        print("Data saved")
+                    }
+                }
             }
         }
     }
 }
-
-//    struct Forecast: Codable {
-//        let base: String
-//        let date: Int
-//        let systemInformation: SystemInformation
-//        let weatherItems: [Weather]
-//
-//        enum CodingKeys: String, CodingKey {
-//            case date = "dt"
-//            case base
-//            case systemInformation = "sys"
-//            case weatherItems = "weather"
-//        }
-//
-//        struct SystemInformation: Codable {
-//            let id: Int
-//            let country: String
-//        }
-//
-//        struct Weather: Codable {
-//            let id: Int
-//            let main: String
-//            let description: String
-//            let icon: String
-//        }
-//    }
 
 ///в случае, если не знаем что парсить
 
@@ -91,7 +80,8 @@ class NetworkServiceImplementation: NetworkService {
 //    }
 
 
-//    //сессию можно настраивать, выставлять различные параметры
+    ///через URLSession
+
 //    let session: URLSession = {
 //        let config = URLSessionConfiguration.default
 //        return URLSession(configuration: config)
