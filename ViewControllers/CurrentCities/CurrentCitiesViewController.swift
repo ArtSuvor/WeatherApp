@@ -117,7 +117,8 @@ class CurrentCitiesViewController: UIViewController {
 //вызываем методы для отображения информации в таблице не забыть выставить оутлеты от таблицы к контроллеру
 extension CurrentCitiesViewController: UITableViewDataSource{
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { //количество строк в секции
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //количество строк в секции
         cities.count
     }
     

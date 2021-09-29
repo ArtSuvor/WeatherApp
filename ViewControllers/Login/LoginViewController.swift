@@ -83,7 +83,7 @@ class LoginViewController: UIViewController {
             guard let emailField = alert.textFields?[0],
                   let passwordField = alert.textFields?[1],
                   let email = emailField.text,
-                  let password = passwordField.text else { return }
+                  let password = passwordField.text else { return } 
             Auth.auth().createUser(withEmail: email, password: password) { [weak self] user, error in
                 if let error = error {
                     self?.showError(error)
