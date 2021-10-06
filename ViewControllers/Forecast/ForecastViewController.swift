@@ -65,6 +65,8 @@ class ForecastViewController: UIViewController {
     }
 }
 
+//MARK: - Extension CollectionView Func
+
 extension ForecastViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         forecastItems?.count ?? 0
@@ -80,6 +82,8 @@ extension ForecastViewController: UICollectionViewDelegate, UICollectionViewData
         return cell
     }
 }
+
+//MARK: - Extension LikePressed
 
 extension ForecastViewController: ForecastCollectionViewCellDelegate {
     func heartWasPressed(at objectID: UUID) {
