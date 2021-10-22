@@ -1,9 +1,8 @@
-#WeatherApp
-
-Учебный проект
+# WeatherApp
+### Учебный проект
 
 ---
-Библиотеки добавлены с помощью Swift Package Manager.
+### Библиотеки добавлены с помощью Swift Package Manager.
 - Alamofire
 - Kingfisher
 - SwiftyJSON
