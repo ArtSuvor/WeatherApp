@@ -32,30 +32,3 @@ class Weather {
         [String(format: "%0.f", date as CVarArg) : temperature]
     }
 }
-
-
-//struct Forecast: Codable {
-//        let base: String
-//        let date: Int
-//        let systemInformation: SystemInformation
-//        let weatherItems: [Weather]
-//
-//        enum CodingKeys: String, CodingKey {
-//            case date = "dt"
-//            case base
-//            case systemInformation = "sys"
-//            case weatherItems = "weather"
-//        }
-//
-//        struct SystemInformation: Codable {
-//            let id: Int
-//            let country: String
-//        }
-//
-//        struct Weather: Codable {
-//            let id: Int
-//            let main: String
-//            let description: String
-//            let icon: String
-//        }
-//    }
