@@ -47,10 +47,10 @@ final class LoginViewController: UIViewController {
         guard let email = loginTextField.text,
               let password = passwordTextField.text,
               !email.isEmpty,
-              !password.isEmpty else { return showAlertError(title: "Ошибка", message: "Логин или пароль некорректны") }
+              !password.isEmpty else { return showError("Логин или пароль некорректны") }
         Auth.auth().signIn(withEmail: email, password: password) {[weak self] user, error in
             if let error = error, user == nil {
-                self?.showError(error)
+                self?.showError(error.localizedDescription)
             }
         }
     }
@@ -73,7 +73,7 @@ final class LoginViewController: UIViewController {
                   let password = passwordField.text else { return } 
             Auth.auth().createUser(withEmail: email, password: password) { [weak self] user, error in
                 if let error = error {
-                    self?.showError(error)
+                    self?.showError(error.localizedDescription)
                 } else {
                     Auth.auth().signIn(withEmail: email, password: password)
                 }

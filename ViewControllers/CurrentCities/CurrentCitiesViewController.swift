@@ -16,7 +16,6 @@ class CurrentCitiesViewController: UIViewController {
     
     //MARK: - Properties
     private let cellID = "CityTableViewCell"
-    private let databaseServise: DatabaseService = DatabaseServiceImpl()
     private var cities = [FirebaseCity]()
     private let ref = Database.database(url: "https://gbweather-b0c7e-default-rtdb.firebaseio.com/").reference(withPath: "cities")
  
@@ -71,24 +70,21 @@ class CurrentCitiesViewController: UIViewController {
     @IBAction func logOutButton(_ sender: UIBarButtonItem) {
         do {
             try Auth.auth().signOut()
-            self.dismiss(animated: true, completion: nil)
+            dismiss(animated: true, completion: nil)
         } catch let error {
-            showAlertError(title: "Ошибка", message: error.localizedDescription)
+            showError(error.localizedDescription)
         }
     }
 }
 
 //MARK: - Extension Table Properties
 
-//вызываем методы для отображения информации в таблице не забыть выставить оутлеты от таблицы к контроллеру
 extension CurrentCitiesViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //количество строк в секции
         cities.count
     }
     
-    //метод, позволяющий переиспользовать ячейку, indexPath - нумерация ячеек
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? CityTableViewCell
         else { return UITableViewCell() }

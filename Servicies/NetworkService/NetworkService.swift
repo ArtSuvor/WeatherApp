@@ -10,7 +10,7 @@ import SwiftyJSON
 import FirebaseFirestore
 
 protocol NetworkService {
-    func getCurrentWeatherForecast(city: String)
+    func getCurrentWeatherForecast(city: String, completion: @escaping ([Weather]) -> Void)
 }
 
 class NetworkServiceImplementation: NetworkService {
@@ -23,7 +23,7 @@ class NetworkServiceImplementation: NetworkService {
         return Session(configuration: config)
     }()
     
-    func getCurrentWeatherForecast(city: String) {
+    func getCurrentWeatherForecast(city: String, completion: @escaping ([Weather]) -> Void) {
         let path = "/data/2.5/forecast"
         let params: Parameters = ["q": "\(city)",
                                   "units": "metric",
@@ -44,7 +44,16 @@ class NetworkServiceImplementation: NetworkService {
                     if let error = error {
                         print(error.localizedDescription)
                     } else {
-                        print("Data saved")
+                        database.collection("forecast").addSnapshotListener{ snap, error in
+                            if error == nil {
+                                if let data = snap?.documents {
+                                    let weathers = data.compactMap {Weather($0)}
+                                    completion(weathers)
+                                }
+                            } else {
+                                print(error!.localizedDescription)
+                            }
+                        }
                     }
                 }
             }

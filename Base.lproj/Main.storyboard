@@ -125,7 +125,7 @@
                         <outlet property="loginTextField" destination="oBJ-pd-9DT" id="8hI-zP-Jem"/>
                         <outlet property="passwordTextField" destination="D7D-d9-9YQ" id="aXK-L3-ART"/>
                         <outlet property="scrollView" destination="Xg9-XU-zMU" id="p6y-7j-n7w"/>
-                        <segue destination="c7N-pR-bd4" kind="presentation" identifier="showMainScreenID" customClass="CustomSegue" customModule="WeatherApp" customModuleProvider="target" modalPresentationStyle="fullScreen" id="Ju0-a8-fnx"/>
+                        <segue destination="c7N-pR-bd4" kind="presentation" identifier="showMainScreenID" modalPresentationStyle="fullScreen" id="Ju0-a8-fnx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

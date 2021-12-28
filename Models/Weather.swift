@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftyJSON
+import Firebase
 
 class Weather {
     let date: Date
@@ -28,7 +29,20 @@ class Weather {
         self.textDiscription = json["weather"][0]["main"].stringValue
     }
     
+    init?(_ snap: QueryDocumentSnapshot) {
+        let data = snap.data()
+        self.date = data["date"] as! Date
+        self.temperature = data["temperature"] as! Double
+        self.pressure = data["pressure"] as! Double
+        self.icon = data["icon"] as! String
+        self.textDiscription = data["textDiscription"] as! String
+    }
+    
     func toFirestore() -> [String: Any] {
-        [String(format: "%0.f", date as CVarArg) : temperature]
+        ["date": date,
+         "temperature": temperature,
+         "pressure": pressure,
+         "icon": icon,
+         "textDiscription": textDiscription]
     }
 }
