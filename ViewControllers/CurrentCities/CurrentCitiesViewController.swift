@@ -6,61 +6,27 @@
 //
 
 import UIKit
-import RealmSwift
 import FirebaseAuth
 import FirebaseDatabase
 
 class CurrentCitiesViewController: UIViewController {
     
     //MARK: - Outlets
-    //таблица с городами
     @IBOutlet var citiesTableView: UITableView!
     
     //MARK: - Properties
-    //идентификатор для ячейки
     private let cellID = "CityTableViewCell"
     private let databaseServise: DatabaseService = DatabaseServiceImpl()
     private var cities = [FirebaseCity]()
     private let ref = Database.database(url: "https://gbweather-b0c7e-default-rtdb.firebaseio.com/").reference(withPath: "cities")
-    //Realm
-//    private var token: NotificationToken?
-//    private var cities: Results<RealmCity>?
-    
+ 
 //MARK: - Life cycle
-    
-    //realm
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        setupNotificationToken()
-//    }
     
     override func viewDidLoad() {
         setupRefObserve()
-//        cities = try? databaseServise.get(RealmCity.self).sorted(byKeyPath: "name")
     }
     
-    //realm
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        token?.invalidate()
-//    }
-    
 //MARK: - Functions
-    
-    //Токен для работы через реалм
-//    private func setupNotificationToken() {
-//        token = cities?.observe {[weak self] changes in
-//            guard let self = self else { return }
-//            switch changes {
-//            case .error(let error):
-//                self.showError(error)
-//            case .initial:
-//                self.citiesTableView.reloadData()
-//            case .update(_, deletions: let deletions, insertions: let insetions, modifications: let modifications):
-//                self.citiesTableView.updateChanges(deletions: deletions, insertions: insetions, modifications: modifications)
-//            }
-//        }
-//    }
     
     private func setupRefObserve() {
         ref.observe(.value) {[weak self] snapshot in
@@ -144,20 +110,3 @@ extension CurrentCitiesViewController: UITableViewDelegate {
         }
     }
 }
-
-//MARK: - добавляем сегу возвращения и добавления выбранного города
-
-//    @IBAction private func goBackFromAvaliableScreen(with segue: UIStoryboardSegue) {
-//        //выбираем контроллер куда переходим destination - куда мы выйдем, source - от куда мы выходим(текущий контроллер), получаем текущий выделенный элемент из таблицы
-//        guard let avaliableVC = segue.source as? AvaliableCityViewController,
-//              let indexPath = avaliableVC.avalibleTableView.indexPathForSelectedRow else {return}
-//        //  получаем новый город
-//        let newCity = avaliableVC.cities[indexPath.row] // извлекаем текущий выбранный город
-//
-//        //проверием на добавление уже добавленных городов
-//        guard !cities.contains(where: { city -> Bool in         //guard cities.contains(where: {$0.name == newCity.name})
-//                                city.name == newCity.name })
-//        else {return}
-//        cities.append(newCity) // добавляем новый город в массив
-//        citiesTableView.reloadData() //перезапускаем вьюху таблицы
-//    }

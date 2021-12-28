@@ -98,23 +98,4 @@ class DailyControl: UIControl {
             }
         }
     }
-    
-    
-    
-    
-//    override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-//        <#code#>
-//    }
-//
-//    override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-//        <#code#>
-//    }
-//
-//    override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-//        <#code#>
-//    }
-//
-//    override func cancelTracking(with event: UIEvent?) {
-//        <#code#>
-//    }
 }

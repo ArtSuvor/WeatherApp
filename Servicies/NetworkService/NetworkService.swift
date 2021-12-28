@@ -15,7 +15,6 @@ protocol NetworkService {
 
 class NetworkServiceImplementation: NetworkService {
 
-    private let databaseServise: DatabaseService = DatabaseServiceImpl()
     private let host = "https://api.openweathermap.org"
     
     let session: Session = {

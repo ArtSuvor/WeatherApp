@@ -2,7 +2,7 @@
 //  Animator.swift
 //  WeatherApp
 //
-//  Created by Art on 12.08.2021.
+//  Created by Art on 29.12.2021.
 //
 
 import UIKit
@@ -18,7 +18,7 @@ class Animator: NSObject, UIViewControllerAnimatedTransitioning {
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let source = transitionContext.viewController(forKey: .from),
-                let destination = transitionContext.viewController(forKey: .to) else {return}
+              let destination = transitionContext.viewController(forKey: .to) else {return}
         
         transitionContext.containerView.addSubview(destination.view)
         

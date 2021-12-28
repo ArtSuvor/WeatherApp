@@ -10,9 +10,7 @@ import Foundation
 //Singleton
 
 class Account {
-    //запрещаем инициализацию в других частях приложения
     private init(){}
-    //инициализируем в самом себе
     static let shared = Account()
     
     //MARK: - User info

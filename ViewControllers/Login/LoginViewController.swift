@@ -8,20 +8,18 @@
 import UIKit
 import FirebaseAuth
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
+    
     //MARK: - Outlets
-    ///scrollView
+    
     @IBOutlet var scrollView: UIScrollView!
-    ///login
     @IBOutlet var loginTextField: UITextField!
-    ///password
     @IBOutlet var passwordTextField: UITextField!
-    ///кнопка входа
     @IBOutlet var authButton: UIButton!
     
     //MARK: - Properties
-    private let animator = Animator()
     private var handle: AuthStateDidChangeListenerHandle!
+    private let animator: Animator = Animator()
 
     //MARK: - Life cycle
     override func viewWillAppear(_ animated: Bool) {
@@ -55,18 +53,7 @@ class LoginViewController: UIViewController {
                 self?.showError(error)
             }
         }
-//        performSegue(withIdentifier: "showMainScreenID", sender: nil)
     }
-    
-    //проверяем то ли вью и результат авторизации
-//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-//        if identifier == "showMainScreenID" && checkAuth() {
-//            return true
-//        } else {
-//            showAuthError()
-//            return false
-//        }
-//    }
     
     @IBAction func singButtonPressed(_ sender: UIButton) {
         let alert = UIAlertController(title: "Регистрация", message: "Регистрация пользователя", preferredStyle: .alert)
@@ -97,20 +84,6 @@ class LoginViewController: UIViewController {
         alert.addAction(cancelButton)
         present(alert, animated: true, completion: nil)
     }
-    
-    
-    //проверяем авторизацию пользователя
-//    func checkAuth() -> Bool {
-//        return (loginTextField.text ?? "").isEmpty && (passwordTextField.text ?? "").isEmpty
-//    }
-    
-    //уведомление пользователя об ошибке
-//    func showAuthError() {
-//        let alertVC = UIAlertController(title: "Error", message: "Write password", preferredStyle: .alert)
-//        let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
-//        alertVC.addAction(okAction)
-//        self.present(alertVC, animated: true, completion: nil)
-//    }
     
     //показ клавиатуры
     @objc func keyboardWasShow(_ notification: Notification) {

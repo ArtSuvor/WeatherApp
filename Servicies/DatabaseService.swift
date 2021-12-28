@@ -5,7 +5,6 @@
 //  Created by Art on 13.09.2021.
 //
 
-import RealmSwift
 
 protocol DatabaseService {
     func save<T: Object> (_ items: [T]) throws -> Realm
