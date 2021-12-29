@@ -26,6 +26,7 @@ class NetworkServiceImplementation: NetworkService {
     func getCurrentWeatherForecast(city: String, completion: @escaping ([Weather]) -> Void) {
         let path = "/data/2.5/forecast"
         let params: Parameters = ["q": "\(city)",
+                                  "cnt": "20",
                                   "units": "metric",
                                   "appid": Account.shared.appID]
         session.request(host + path, method: .get, parameters: params).responseJSON { response in
@@ -39,25 +40,22 @@ class NetworkServiceImplementation: NetworkService {
                     .map { Weather($0) }
                     .map { $0.toFirestore() }
                     .map { weathers in
-                        DispatchQueue.global().async {
-                            database.collection(city).addDocument(data: weathers) { error in
-                                if let error = error {
-                                    print(error.localizedDescription)
-                                } else {
-                                    database.collection(city).addSnapshotListener{ snap, error in
-                                        if error == nil {
-                                            if let data = snap?.documents {
-                                                let weathers = data.compactMap {Weather($0)}
-                                                DispatchQueue.main.async {
-                                                    completion(weathers)
-                                                }
-                                                
-                                            }
-                                        } else {
-                                            print(error!.localizedDescription)
+                        database.collection(city).addDocument(data: weathers){ error in
+                            if let error = error {
+                                print(error.localizedDescription)
+                            } else {
+                                database.collection(city).addSnapshotListener{ snap, error in
+                                    if error == nil {
+                                        if let data = snap?.documents {
+                                            var weathers = data.compactMap {Weather($0)}
+                                            weathers.sort()
+                                            completion(weathers)
                                         }
+                                    } else {
+                                        print(error!.localizedDescription)
                                     }
                                 }
+                                
                             }
                         }
                         
