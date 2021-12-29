@@ -6,5 +6,4 @@
 - Alamofire
 - Kingfisher
 - SwiftyJSON
-- Realm
 - Firebase
