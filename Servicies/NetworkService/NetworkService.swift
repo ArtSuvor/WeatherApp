@@ -29,25 +29,28 @@ class NetworkServiceImplementation: NetworkService {
                                   "cnt": "20",
                                   "units": "metric",
                                   "appid": Account.shared.appID]
-        session.request(host + path, method: .get, parameters: params).responseJSON { response in
+        session.request(host + path, method: .get, parameters: params).response(queue: .global()) { response in
             switch response.result {
             case .failure(let error):
                 print(error)
             case .success(let value):
-                let json = JSON(value)
+                let json = JSON(value as Any)
                 let database = Firestore.firestore()
                 _ = json["list"].arrayValue
                     .map { Weather($0) }
                     .map { $0.toFirestore() }
-                    .map { weathers in
-                        database.collection(city).addDocument(data: weathers){ error in
+                    .map { weather in
+                        database.collection(city)
+                            .addDocument(data: weather){ error in
                             if let error = error {
                                 print(error.localizedDescription)
                             } else {
-                                database.collection(city).addSnapshotListener{ snap, error in
+                                database.collection(city)
+                                    .addSnapshotListener{ snap, error in
                                     if error == nil {
                                         if let data = snap?.documents {
-                                            var weathers = data.compactMap {Weather($0)}
+                                            var weathers = data
+                                                .compactMap {Weather($0)}
                                             weathers.sort()
                                             completion(weathers)
                                         }

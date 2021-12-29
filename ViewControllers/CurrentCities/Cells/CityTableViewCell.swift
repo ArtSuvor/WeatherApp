@@ -10,7 +10,7 @@ import UIKit
 class CityTableViewCell: UITableViewCell {
     
     @IBOutlet private var cityName: UILabel!
-    @IBOutlet private var cityImage: UIImageView!
+    @IBOutlet private var cityImage: CustomImageView!
     
     func configure(weather: FirebaseCity) {
         cityName.text = weather.name
