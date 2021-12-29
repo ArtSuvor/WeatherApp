@@ -35,27 +35,33 @@ class NetworkServiceImplementation: NetworkService {
             case .success(let value):
                 let json = JSON(value)
                 let database = Firestore.firestore()
-                let forecastList = json["list"].arrayValue
-                let weather = forecastList
+                _ = json["list"].arrayValue
                     .map { Weather($0) }
                     .map { $0.toFirestore() }
-                    .reduce([:]) { $0.merging($1) { (current, _) in current } }
-                database.collection("forecast").document(city).setData(weather, merge: true) { error in
-                    if let error = error {
-                        print(error.localizedDescription)
-                    } else {
-                        database.collection("forecast").addSnapshotListener{ snap, error in
-                            if error == nil {
-                                if let data = snap?.documents {
-                                    let weathers = data.compactMap {Weather($0)}
-                                    completion(weathers)
+                    .map { weathers in
+                        DispatchQueue.global().async {
+                            database.collection(city).addDocument(data: weathers) { error in
+                                if let error = error {
+                                    print(error.localizedDescription)
+                                } else {
+                                    database.collection(city).addSnapshotListener{ snap, error in
+                                        if error == nil {
+                                            if let data = snap?.documents {
+                                                let weathers = data.compactMap {Weather($0)}
+                                                DispatchQueue.main.async {
+                                                    completion(weathers)
+                                                }
+                                                
+                                            }
+                                        } else {
+                                            print(error!.localizedDescription)
+                                        }
+                                    }
                                 }
-                            } else {
-                                print(error!.localizedDescription)
                             }
                         }
+                        
                     }
-                }
             }
         }
     }

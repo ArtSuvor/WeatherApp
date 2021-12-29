@@ -17,7 +17,7 @@ class CurrentCitiesViewController: UIViewController {
     //MARK: - Properties
     private let cellID = "CityTableViewCell"
     private var cities = [FirebaseCity]()
-    private let ref = Database.database(url: "https://gbweather-b0c7e-default-rtdb.firebaseio.com/").reference(withPath: "cities")
+    private let ref = Database.database(url: "https://gbweather-51951-default-rtdb.firebaseio.com/").reference(withPath: "cities")
  
 //MARK: - Life cycle
     

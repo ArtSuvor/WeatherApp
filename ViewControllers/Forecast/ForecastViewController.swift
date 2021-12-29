@@ -10,7 +10,6 @@ import UIKit
 class ForecastViewController: UIViewController {
     //MARK: - Outlets
     @IBOutlet var collectionView: UICollectionView!
-    @IBOutlet var dailyControl: DailyControl!
     
     //MARK: - Properties
 
@@ -23,8 +22,8 @@ class ForecastViewController: UIViewController {
     //MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        let cellNib = UINib(nibName: "ForecastCollectionViewCell", bundle: nil)
-        collectionView.register(cellNib, forCellWithReuseIdentifier: ForecastCollectionViewCell.reuseID)
+        collectionView.collectionViewLayout = create()
+        collectionView.register(ForecastCollectionViewCell.self, forCellWithReuseIdentifier: ForecastCollectionViewCell.reuseID)
         fetchWeatherForecast()
     }
     
@@ -41,6 +40,19 @@ class ForecastViewController: UIViewController {
             self.collectionView.reloadData()
             activityIndicator.stopAnimating()
         }
+    }
+    
+    private func create() -> UICollectionViewLayout {
+        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1)))
+        let itemTwo = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1)))
+        item.contentInsets = NSDirectionalEdgeInsets(top: 3, leading: 3, bottom: 3, trailing: 3)
+        itemTwo.contentInsets = NSDirectionalEdgeInsets(top: 3, leading: 3, bottom: 3, trailing: 3)
+        let groupHoriz = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.2)), subitems: [item, itemTwo])
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)), subitems: [groupHoriz])
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 3
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
     }
 }
 

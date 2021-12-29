@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>983614797416-bdmlb7jnp6j491jv5cmo2ivqahm406e9.apps.googleusercontent.com</string>
+	<string>778062401128-8togh5f8vcgssrf0pnqqi2jfchhgni13.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.983614797416-bdmlb7jnp6j491jv5cmo2ivqahm406e9</string>
+	<string>com.googleusercontent.apps.778062401128-8togh5f8vcgssrf0pnqqi2jfchhgni13</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCijNSUsMsf5NTdenbpHf2UhaxqBZHOG3M</string>
+	<string>AIzaSyCvPwtfrcODCg1CX6PIRIucI4Il8eMa03w</string>
 	<key>GCM_SENDER_ID</key>
-	<string>983614797416</string>
+	<string>778062401128</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>WeatherApp.WeatherApp</string>
+	<string>WeatherApp.WeatherApp11</string>
 	<key>PROJECT_ID</key>
-	<string>gbweather-b0c7e</string>
+	<string>gbweather-51951</string>
 	<key>STORAGE_BUCKET</key>
-	<string>gbweather-b0c7e.appspot.com</string>
+	<string>gbweather-51951.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:983614797416:ios:6915004ab4ba3f844a6ddd</string>
-	<key>DATABASE_URL</key>
-	<string>https://gbweather-b0c7e-default-rtdb.firebaseio.com</string>
+	<string>1:778062401128:ios:a0189caf46c33aa500b5dd</string>
 </dict>
 </plist>

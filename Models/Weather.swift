@@ -31,7 +31,8 @@ class Weather {
     
     init?(_ snap: QueryDocumentSnapshot) {
         let data = snap.data()
-        self.date = data["date"] as! Date
+        let dt = data["date"] as! Timestamp
+        self.date = dt.dateValue()
         self.temperature = data["temperature"] as! Double
         self.pressure = data["pressure"] as! Double
         self.icon = data["icon"] as! String
