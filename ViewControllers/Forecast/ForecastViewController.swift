@@ -19,7 +19,7 @@ class ForecastViewController: UIViewController {
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
     //MARK: - Сервисы
-    private let networkService: NetworkService = NetworkServiceImplementation()
+    private let networkService = WeatherOperationQueue()
 
     //MARK: - Life cycle
     override func viewDidLoad() {
@@ -44,14 +44,12 @@ class ForecastViewController: UIViewController {
     }
     
     @objc private func fetchForecast() {
-        DispatchQueue.main.async {[weak self]  in
+        networkService.getWeather(city: currentCity) {[weak self] weathers in
             guard let self = self else { return }
-            self.networkService.getCurrentWeatherForecast(city: self.currentCity) { weathers in
-                self.forecastItems = weathers
-                self.collectionView.reloadData()
-                self.activityIndicator.stopAnimating()
-                self.refControl.endRefreshing()
-            }
+            self.forecastItems = weathers
+            self.collectionView.reloadData()
+            self.activityIndicator.stopAnimating()
+            self.refControl.endRefreshing()
         }
     }
     
