@@ -19,18 +19,21 @@ class CurrentLocationTableCell: UITableViewCell {
     
     private let dateLabel: UILabel = {
         let label = UILabel()
+        label.text = "agfaer"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let temperatureLabel: UILabel = {
         let label = UILabel()
+        label.text = "aghjafaer"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let pressureLabel: UILabel = {
         let label = UILabel()
+        label.text = "aghjadhfaer"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -69,17 +72,17 @@ extension CurrentLocationTableCell {
         
         NSLayoutConstraint.activate([
             iconImageView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            iconImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
+            iconImageView.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 5),
             iconImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)])
         
         NSLayoutConstraint.activate([
             temperatureLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            temperatureLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
+            temperatureLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 5),
             temperatureLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)])
         
         NSLayoutConstraint.activate([
             pressureLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            pressureLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
+            pressureLabel.leadingAnchor.constraint(equalTo: temperatureLabel.trailingAnchor, constant: 5),
             pressureLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
             pressureLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5)])
     }

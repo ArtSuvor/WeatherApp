@@ -10,6 +10,7 @@ import Foundation
 
 enum WeatherRouter: URLRequestConvertible {
     case getWeather(_ city: String)
+    case getWeatherLocation(lat: Int, long: Int)
     
     private var token: String {
         return Account.shared.appID
@@ -22,12 +23,14 @@ enum WeatherRouter: URLRequestConvertible {
     private var method: HTTPMethod {
         switch self {
         case .getWeather: return .get
+        case .getWeatherLocation: return .get
         }
     }
     
     private var path: String {
         switch self {
         case .getWeather: return "/data/2.5/forecast"
+        case .getWeatherLocation: return "/data/2.5/forecast/daily"
         }
     }
     
@@ -36,6 +39,11 @@ enum WeatherRouter: URLRequestConvertible {
         case .getWeather(let city):
             return ["q": "\(city)",
                     "cnt": "20",
+                    "units": "metric",
+                    "appid": "\(Account.shared.appID)"]
+        case .getWeatherLocation(let lat, let long):
+            return ["lat": "\(lat)",
+                    "lon": "\(long)",
                     "units": "metric",
                     "appid": "\(Account.shared.appID)"]
         }

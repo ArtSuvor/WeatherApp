@@ -6,8 +6,16 @@
 //
 
 import UIKit
+import CoreLocation
 
 class CurrentLocationViewController: UIViewController {
+    
+//MARK: - Properties
+    private var weathers: [Weather]?
+    private var city: LocalCityModel?
+    
+    private let network: NetworkingOperation = WeatherOperationQueue()
+    private let locationManager = CLLocationManager()
     
 //MARK: - UI elements
     private var tableView: UITableView!
@@ -16,17 +24,37 @@ class CurrentLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setTableView()
+        setLocationManager()
     }
     
 //MARK: - Methods
     private func setTableView() {
-        view.backgroundColor = .secondarySystemBackground
-        tableView = UITableView(frame: view.bounds, style: .grouped)
+        tableView = UITableView(frame: view.bounds, style: .insetGrouped)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.allowsSelection = false
         tableView.register(CurrentLocationHeader.self, forHeaderFooterViewReuseIdentifier: CurrentLocationHeader.reuseId)
         tableView.register(CurrentLocationTableCell.self, forCellReuseIdentifier: CurrentLocationTableCell.reuseId)
         view.addSubview(tableView)
+    }
+    
+    private func setLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+    }
+    
+    private func fetchData(coord: CLLocationCoordinate2D) {
+        let lat = Int(coord.latitude)
+        let lon = Int(coord.longitude)
+        
+        network.getLocalWeather(lat: lat, lon: lon) {[weak self] weathers, city in
+            guard let self = self else { return }
+            self.weathers = weathers
+            self.city = city
+            self.tableView.reloadData()
+        }
     }
 }
 
@@ -42,7 +70,7 @@ extension CurrentLocationViewController: UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        20
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -55,3 +83,16 @@ extension CurrentLocationViewController: UITableViewDelegate, UITableViewDataSou
     }
 }
 
+//MARK: - LocationDelegate
+extension CurrentLocationViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        locationManager.stopUpdatingLocation()
+        if let coord = locations.last?.coordinate {
+            fetchData(coord: coord)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        showError(error.localizedDescription)
+    }
+}

@@ -66,19 +66,19 @@ class CurrentLocationHeader: UITableViewHeaderFooterView {
 extension CurrentLocationHeader {
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            nameCityLabel.topAnchor.constraint(equalTo: topAnchor, constant: 50),
+            nameCityLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             nameCityLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             nameCityLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)])
         
         NSLayoutConstraint.activate([
-            temperatureLabel.topAnchor.constraint(equalTo: nameCityLabel.bottomAnchor, constant: 10),
-            temperatureLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            temperatureLabel.topAnchor.constraint(equalTo: nameCityLabel.bottomAnchor, constant: 5),
+            temperatureLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
             temperatureLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)])
         
         NSLayoutConstraint.activate([
-            descriptionLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor, constant: 10),
+            descriptionLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor, constant: 5),
             descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
             descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
-            descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 20)])
+            descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 10)])
     }
 }

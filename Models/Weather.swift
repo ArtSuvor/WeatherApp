@@ -9,15 +9,8 @@ import Foundation
 import SwiftyJSON
 import Firebase
 
-class Weather: Comparable {
-    static func < (lhs: Weather, rhs: Weather) -> Bool {
-        lhs.date < rhs.date
-    }
-    
-    static func == (lhs: Weather, rhs: Weather) -> Bool {
-        lhs.date == rhs.date
-    }
-    
+class Weather {
+   
     let date: Date
     let temperature: Double
     let pressure: Double
@@ -53,5 +46,16 @@ class Weather: Comparable {
          "pressure": pressure,
          "icon": icon,
          "textDiscription": textDiscription]
+    }
+}
+
+//MARK: - Comparable
+extension Weather: Comparable {
+    static func < (lhs: Weather, rhs: Weather) -> Bool {
+        lhs.date < rhs.date
+    }
+    
+    static func == (lhs: Weather, rhs: Weather) -> Bool {
+        lhs.date == rhs.date
     }
 }
