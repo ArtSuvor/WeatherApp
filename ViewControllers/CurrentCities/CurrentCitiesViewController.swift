@@ -13,7 +13,7 @@ import FirebaseFirestore
 class CurrentCitiesViewController: UIViewController {
     
     //MARK: - Outlets
-    @IBOutlet var citiesTableView: UITableView!
+    @IBOutlet weak var citiesTableView: UITableView!
     
     //MARK: - Properties
     private let cellID = "CityTableViewCell"
@@ -43,7 +43,6 @@ class CurrentCitiesViewController: UIViewController {
         }
     }
     
-//    передача текущего города в другой vc
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let forecastVC = segue.destination as? ForecastViewController,
               let indexPath = citiesTableView.indexPathForSelectedRow else {return}
@@ -52,7 +51,6 @@ class CurrentCitiesViewController: UIViewController {
 
     
 //MARK: - FuncAction
-    
     @IBAction func addCityAction(_ sender: Any) {
         let alertVC = UIAlertController(title: "Введите название города", message: nil, preferredStyle: .alert)
         alertVC.addTextField()

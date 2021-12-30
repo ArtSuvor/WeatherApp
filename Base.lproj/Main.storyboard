@@ -125,7 +125,7 @@
                         <outlet property="loginTextField" destination="oBJ-pd-9DT" id="8hI-zP-Jem"/>
                         <outlet property="passwordTextField" destination="D7D-d9-9YQ" id="aXK-L3-ART"/>
                         <outlet property="scrollView" destination="Xg9-XU-zMU" id="p6y-7j-n7w"/>
-                        <segue destination="c7N-pR-bd4" kind="presentation" identifier="showMainScreenID" modalPresentationStyle="fullScreen" id="Ju0-a8-fnx"/>
+                        <segue destination="QQs-Op-cZK" kind="presentation" identifier="showMainScreenID" modalPresentationStyle="fullScreen" id="Ju0-a8-fnx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -141,7 +141,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="JDm-di-tHV">
-                                <rect key="frame" x="0.0" y="88" width="390" height="722"/>
+                                <rect key="frame" x="0.0" y="88" width="390" height="673"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CityTableViewCell" id="SAc-Tz-0dT" customClass="CityTableViewCell" customModule="WeatherApp" customModuleProvider="target">
@@ -214,7 +214,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f6I-5U-Ya1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1787.6923076923076" y="137.91469194312796"/>
+            <point key="canvasLocation" x="2716.9230769230767" y="137.91469194312796"/>
         </scene>
         <!--Forecast View Controller-->
         <scene sceneID="ZDy-Ny-5lC">
@@ -225,7 +225,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="RAB-VA-uzY">
-                                <rect key="frame" x="0.0" y="88" width="390" height="722"/>
+                                <rect key="frame" x="0.0" y="88" width="390" height="673"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="KzK-VI-bzX">
                                     <size key="itemSize" width="128" height="128"/>
@@ -256,12 +256,30 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UdD-Fe-Uij" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2585" y="138"/>
+            <point key="canvasLocation" x="3513.8461538461538" y="137.91469194312796"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--CurrenLocation-->
+        <scene sceneID="fXC-0V-JO8">
+            <objects>
+                <viewController id="F6D-ma-gjM" customClass="CurrentLocationViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PIR-ha-h9l">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="nq3-yS-tgp"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="CurrenLocation" id="gti-XJ-8eS"/>
+                    <navigationItem key="navigationItem" id="44m-lV-A4I"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wvu-cw-5wG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1962" y="-499"/>
+        </scene>
+        <!--ListCities-->
         <scene sceneID="Ks9-dN-RfU">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="c7N-pR-bd4" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="ListCities" id="1fR-iq-Ssg"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="XGP-gI-kTc"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="z47-Sd-zem">
@@ -278,7 +296,25 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jDG-Z3-YfD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1034" y="138"/>
+            <point key="canvasLocation" x="1963.0769230769231" y="137.91469194312796"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="AcD-Ds-Jxe">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="QQs-Op-cZK" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="WQ3-3c-wvv">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="F6D-ma-gjM" kind="relationship" relationship="viewControllers" id="7Ng-dJ-FgE"/>
+                        <segue destination="c7N-pR-bd4" kind="relationship" relationship="viewControllers" id="KCp-8u-QWI"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CNn-Sr-jrw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1033.8461538461538" y="137.91469194312796"/>
         </scene>
     </scenes>
     <resources>
