@@ -18,6 +18,6 @@
 
 <img src="https://user-images.githubusercontent.com/85563543/147780556-67e238f1-ff68-4996-b08d-bdc32eddb3ed.PNG" width="200">
 
-## Добавление города по имени и список их с сохранением в Firebase
+## Добавление города по имени и прогноз их с сохранением в Firebase
 
 <img src="https://user-images.githubusercontent.com/85563543/147780638-685f700f-2cd4-49f1-bd00-2695f2a88670.PNG" width="200"> <img src="https://user-images.githubusercontent.com/85563543/147780648-36ec2acd-e542-4a9d-a773-6048ee05f742.PNG" width="200">
