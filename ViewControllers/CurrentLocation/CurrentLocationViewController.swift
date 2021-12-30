@@ -13,7 +13,9 @@ class CurrentLocationViewController: UIViewController {
 //MARK: - Properties
     private var weathers: [Weather]?
     private var city: LocalCityModel?
+    private var coords: CLLocationCoordinate2D?
     
+    private let refControl = UIRefreshControl()
     private let network: NetworkingOperation = WeatherOperationQueue()
     private let locationManager = CLLocationManager()
     
@@ -25,6 +27,7 @@ class CurrentLocationViewController: UIViewController {
         super.viewDidLoad()
         setTableView()
         setLocationManager()
+        setRefControl()
     }
     
 //MARK: - Methods
@@ -45,18 +48,23 @@ class CurrentLocationViewController: UIViewController {
         locationManager.startUpdatingLocation()
     }
     
-    private func fetchData(coord: CLLocationCoordinate2D?) {
-        if let lat = coord?.latitude,
-           let lon = coord?.longitude {
-            
-            network.getLocalWeather(lat: Int(lat), lon: Int(lon)) {[weak self] weathers, city in
-                guard let self = self else { return }
-                self.weathers = weathers
-                self.city = city
-                self.tableView.reloadData()
-                self.locationManager.stopUpdatingLocation()
-            }
+    @objc private func fetchData() {
+        guard let lat = coords?.latitude,
+              let lon = coords?.longitude else { return }
+        
+        network.getLocalWeather(lat: Int(lat), lon: Int(lon)) {[weak self] weathers, city in
+            guard let self = self else { return }
+            self.weathers = weathers
+            self.city = city
+            self.tableView.reloadData()
+            self.locationManager.stopUpdatingLocation()
+            self.refControl.endRefreshing()
         }
+    }
+    
+    private func setRefControl() {
+        refControl.addTarget(self, action: #selector(fetchData), for: .valueChanged)
+        tableView.refreshControl = refControl
     }
 }
 
@@ -94,8 +102,8 @@ extension CurrentLocationViewController: UITableViewDelegate, UITableViewDataSou
 //MARK: - LocationDelegate
 extension CurrentLocationViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let coord = locations.last?.coordinate
-        fetchData(coord: coord)
+        self.coords = locations.last?.coordinate
+        fetchData()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

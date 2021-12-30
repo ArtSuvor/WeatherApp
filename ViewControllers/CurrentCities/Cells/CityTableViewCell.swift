@@ -14,6 +14,6 @@ class CityTableViewCell: UITableViewCell {
     
     func configure(weather: FirebaseCity) {
         cityName.text = weather.name
-        cityImage.image = UIImage(named: "11")
+        cityImage.image = UIImage(systemName: "cloud.fill")
     }
 }
