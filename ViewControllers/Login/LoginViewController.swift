@@ -87,12 +87,9 @@ final class LoginViewController: UIViewController {
     
     //показ клавиатуры
     @objc func keyboardWasShow(_ notification: Notification) {
-        let info = notification.userInfo! as NSDictionary
-        let keyboardSize = (info.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue).cgRectValue.size
-        let contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardSize.height, right: 0.0)
-        
-        self.scrollView?.contentInset = contentInset
-        scrollView?.scrollIndicatorInsets = contentInset
+        guard let info = notification.userInfo else { return }
+        let keyboardSize = (info[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        scrollView.contentOffset = CGPoint(x: 0, y: keyboardSize.height * 0.3)
     }
     
     //скрытие клавиатуры
