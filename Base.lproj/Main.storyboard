@@ -258,7 +258,7 @@
             </objects>
             <point key="canvasLocation" x="3513.8461538461538" y="137.91469194312796"/>
         </scene>
-        <!--CurrenLocation-->
+        <!--Current Location View Controller-->
         <scene sceneID="fXC-0V-JO8">
             <objects>
                 <viewController id="F6D-ma-gjM" customClass="CurrentLocationViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -268,18 +268,18 @@
                         <viewLayoutGuide key="safeArea" id="nq3-yS-tgp"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="CurrenLocation" id="gti-XJ-8eS"/>
+                    <tabBarItem key="tabBarItem" title="" image="cloud" catalog="system" id="gti-XJ-8eS"/>
                     <navigationItem key="navigationItem" id="44m-lV-A4I"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wvu-cw-5wG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1962" y="-499"/>
         </scene>
-        <!--ListCities-->
+        <!--Navigation Controller-->
         <scene sceneID="Ks9-dN-RfU">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="c7N-pR-bd4" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="ListCities" id="1fR-iq-Ssg"/>
+                    <tabBarItem key="tabBarItem" title="" image="cloud.fog.fill" catalog="system" id="1fR-iq-Ssg"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="XGP-gI-kTc"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="z47-Sd-zem">
@@ -318,6 +318,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="cloud" catalog="system" width="128" height="88"/>
+        <image name="cloud.fog.fill" catalog="system" width="128" height="124"/>
         <image name="new_zeland3.jpg.pagespeed.ce._rJ5oxwwxB" width="840" height="478"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
