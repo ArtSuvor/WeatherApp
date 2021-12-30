@@ -17,7 +17,7 @@ final class WeatherOperationQueue: NetworkingOperation {
     
     func getWeather(city: String, completion: @escaping ([Weather]) -> Void) {
         let getWeather = GetWeatherOperation(city: city)
-        let parseWeather = ParseWeatherOperation { weather, cities in
+        let parseWeather = ParseWeatherOperation { weather in
             OperationQueue.main.addOperation {
                 completion(weather)
             }
@@ -29,13 +29,14 @@ final class WeatherOperationQueue: NetworkingOperation {
     
     func getLocalWeather(lat: Int, lon: Int, completion: @escaping ([Weather], LocalCityModel) -> Void) {
         let getWeather = GetLocalWeatherOperation(lat: lat, lon: lon)
-        let parseWeather = ParseWeatherOperation { weathers, city in
+        let parseCity = ParseCityOperation {weather, city in
             OperationQueue.main.addOperation {
-                completion(weathers, city)
+                completion(weather, city)
             }
         }
-        let operations = [getWeather, parseWeather]
-        parseWeather.addDependency(getWeather)
+
+        let operations = [getWeather, parseCity]
+        parseCity.addDependency(getWeather)
         operationQueue.addOperations(operations, waitUntilFinished: false)
     }
 }

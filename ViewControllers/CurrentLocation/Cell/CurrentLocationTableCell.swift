@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class CurrentLocationTableCell: UITableViewCell {
     static let reuseId = "CurrentLocationTableCell"
@@ -20,6 +21,7 @@ class CurrentLocationTableCell: UITableViewCell {
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.text = "agfaer"
+        label.font = UIFont.systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -27,6 +29,7 @@ class CurrentLocationTableCell: UITableViewCell {
     private let temperatureLabel: UILabel = {
         let label = UILabel()
         label.text = "aghjafaer"
+        label.font = UIFont.systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -34,6 +37,7 @@ class CurrentLocationTableCell: UITableViewCell {
     private let pressureLabel: UILabel = {
         let label = UILabel()
         label.text = "aghjadhfaer"
+        label.font = UIFont.systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -50,8 +54,13 @@ class CurrentLocationTableCell: UITableViewCell {
     }
     
 //MARK: - Methods
-    func configure() {
+    func configure(model: Weather) {
+        dateLabel.text = DateFormatterDate.shared.getDateString(date: model.date)
+        pressureLabel.text = String(format: "%.0fMm", model.pressure)
+        temperatureLabel.text = String(format: "%.0f℃", model.temperature)
         
+        guard let url = URL(string: "https://api.openweathermap.org/img/w/\(model.icon).png") else { return }
+        iconImageView.kf.setImage(with: url)
     }
     
     private func setViews() {
@@ -73,7 +82,9 @@ extension CurrentLocationTableCell {
         NSLayoutConstraint.activate([
             iconImageView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
             iconImageView.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 5),
-            iconImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)])
+            iconImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            iconImageView.widthAnchor.constraint(equalToConstant: 30),
+            iconImageView.heightAnchor.constraint(equalToConstant: 30)])
         
         NSLayoutConstraint.activate([
             temperatureLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5),

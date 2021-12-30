@@ -10,9 +10,9 @@ import SwiftyJSON
 import FirebaseFirestore
 
 final class ParseWeatherOperation: AsyncOperation {
-    private let completion: ([Weather], LocalCityModel) -> Void
+    private let completion: ([Weather]) -> Void
     
-    init(completion: @escaping ([Weather], LocalCityModel) -> Void) {
+    init(completion: @escaping ([Weather]) -> Void) {
         self.completion = completion
     }
     
@@ -21,7 +21,6 @@ final class ParseWeatherOperation: AsyncOperation {
               let dataWeather = getWeather.data else { return }
         let cityName = getWeather.city
         let json = JSON(dataWeather)
-        let city = LocalCityModel(json)
         let weatherArray = json["list"].arrayValue
         _ = weatherArray
             .map { Weather($0) }
@@ -33,10 +32,11 @@ final class ParseWeatherOperation: AsyncOperation {
                             print(error.localizedDescription)
                         } else {
                             Firestore.firestore().collection(cityName).addSnapshotListener { snap, error in
-                                    if error == nil, let data = snap?.documents {
-                                            var weathers = data.compactMap { Weather($0) }
-                                            weathers.sort()
-                                            self.completion(weathers, city)
+                                if error == nil, let data = snap?.documents {
+                                    var weathers = data.compactMap { Weather($0) }
+                                    weathers.sort()
+                                    self.completion(weathers)
+                                    self.state = .finished
                                     } else {
                                         print(error!.localizedDescription)
                                     }

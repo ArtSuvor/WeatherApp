@@ -30,7 +30,7 @@ enum WeatherRouter: URLRequestConvertible {
     private var path: String {
         switch self {
         case .getWeather: return "/data/2.5/forecast"
-        case .getWeatherLocation: return "/data/2.5/forecast/daily"
+        case .getWeatherLocation: return "/data/2.5/forecast"
         }
     }
     
